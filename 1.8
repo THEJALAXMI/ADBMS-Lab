@@ -1,0 +1,56 @@
+mysql> select product.pname, invoice_item.quantity from product inner join invoice_item on product.pid = invoice_item.pid;
++--------------+----------+
+| pname        | quantity |
++--------------+----------+
+| Laptop       |        3 |
+| Mobile Phone |        3 |
+| Headphone    |        4 |
++--------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select customer.name,product.pname,product.price,invoice_master.inv_id,invoice_master.inv_date,invoice_item.quantity from customer inner join invoice_master on customer.customer_id=invoice_master.customer_id inner join invoice_item on invoice_master.inv_id=invoice_item.inv_id inner join product on product.pid=invoice_item.pid where inv_date='2000-01-27';
++------+--------+-------+--------+------------+----------+
+| name | pname  | price | inv_id | inv_date   | quantity |
++------+--------+-------+--------+------------+----------+
+| Asif | Laptop | 51000 |      1 | 2000-01-27 |        3 |
++------+--------+-------+--------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select customer.name,product.pname,invoice_master.inv_date from customer inner join invoice_master on customer.customer_id=invoice_master.customer_id inner join invoice_item on invoice_master.inv_id=invoice_item.inv_id inner join product on product.pid=invoice_item.pid where pname='Laptop';
+
++------+--------+------------+
+| name | pname  | inv_date   |
++------+--------+------------+
+| Asif | Laptop | 2000-01-27 |
++------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> select customer.name,product.pname,invoice_master.inv_id,invoice_master.inv_date from customer left join invoice_master on customer.customer_id=invoice_master.customer_id left join invoice_item on invoice_master.inv_id= invoice_item.inv_id left join product on product.pid=invoice_item.pid;
++---------+--------------+--------+------------+
+| name    | pname        | inv_id | inv_date   |
++---------+--------------+--------+------------+
+| Asif    | Laptop       |      1 | 2000-01-27 |
+| Owen    | Mobile Phone |      2 | 2012-03-12 |
+| Adarsh  | Headphone    |      3 | 2008-03-22 |
+| Adinath | NULL         |   NULL | NULL       |
++---------+--------------+--------+------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

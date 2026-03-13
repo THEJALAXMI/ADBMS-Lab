@@ -1,0 +1,121 @@
+mca@MCA11:~$ sudo mysql -u root -p
+[sudo] password for mca: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.42-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use mca;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> desc invoice_master;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| inv_id      | int  | NO   | PRI | NULL    |       |
+| customer_id | int  | YES  | MUL | NULL    |       |
+| inv_date    | date | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(25) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(25) | YES  |     | NULL    |       |
+| ph_no       | varchar(15) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select *from customer;
++-------------+---------+-----------------+-----------+------------+
+| customer_id | name    | address         | city      | ph_no      |
++-------------+---------+-----------------+-----------+------------+
+|         121 | Asif    | 14 Aqua City    | Kochi     | 9587345109 |
+|         122 | Owen    | 10 Lakeview     | Ernakulam | 8251704276 |
+|         123 | Adarsh  | 21 Confident    | Kollam    | 8976543098 |
+|         124 | Adinath | 10 Costa valley | Thrissur  | 9865343098 |
++-------------+---------+-----------------+-----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select *from product;
++-----+--------------+-------+
+| pid | pname        | price |
++-----+--------------+-------+
+| 201 | Laptop       | 51000 |
+| 202 | Mobile Phone | 30600 |
+| 203 | Headphone    |  5100 |
++-----+--------------+-------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM invoice_master;
++--------+-------------+------------+
+| inv_id | customer_id | inv_date   |
++--------+-------------+------------+
+|      1 |         121 | 2000-01-27 |
+|      2 |         122 | 2012-03-12 |
+|      3 |         123 | 2008-03-22 |
++--------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select name from customer where customer_id in(select inv_id from invoice_master where inv_date='2012-03-12');
++--------+
+| name   |
++--------+
+| Owen   |
++--------+
+  
+mysql> select pname from product where pid in(select pid from invoice_item where quantity>5100);
+
++-----------+
+| pname     |
++-----------+
+| Laptop    |
+| Headphone |
++-----------+
+
+mysql> select pname,price from product where pid in(select pid from invoice_item);
++--------------+-------+
+| pname        | price |
++--------------+-------+
+| Laptop       | 51000 |
+| Mobile Phone | 30600 |
+| Headphone    |  5100 |
++--------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select name from customer where customer_id IN(select customer_id from invoice_master where inv_id in(select inv_id from invoice_item where pid in(sele
+ct  pid from product where pname="Headphone" OR pname="Laptop")));
++--------+
+| name   |
++--------+
+| Asif   |
+| Adarsh |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select *from product where pid IN(select pid from invoice_item where inv_id in(select inv_id from invoice_master where customer_id in(select customer_id from customer where name="Adarsh")));
++-----+-----------+-------+
+| pid | pname     | price |
++-----+-----------+-------+
+| 203 | Headphone |  5100 |
++-----+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select DISTINCT name from customer where customer_id IN(select customer_id from invoice_master where inv_id in(select inv_id from invoice_item GROUP BY
+ inv_id HAVING COUNT(*)>1));
+Empty set (0.00 sec)
+
