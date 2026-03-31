@@ -1,0 +1,209 @@
+Experiment No: 1.3
+
+mca@MCA03:~/Desktop$ sudo mysql -u root -p
+[sudo] password for mca: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.45-0ubuntu0.24.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+a) TCL COMMANDS 
+1.    Commit 
+
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> use MCA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select *from student;
++---------+--------+--------+-----+
+| roll_no | name   | gender | age |
++---------+--------+--------+-----+
+|       1 | Karen  | m      |  20 |
+|       2 | Shreya | f      |  21 |
+|       3 | Simran | f      |  22 |
+|       4 | Akash  | m      |  21 |
++---------+--------+--------+-----+
+4 rows in set (0.01 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(5,'Aksa','f',20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select *from student;
++---------+--------+--------+-----+
+| roll_no | name   | gender | age |
++---------+--------+--------+-----+
+|       1 | Karen  | m      |  20 |
+|       2 | Shreya | f      |  21 |
+|       3 | Simran | f      |  22 |
+|       4 | Akash  | m      |  21 |
+|       5 | Aksa   | f      |  20 |
++---------+--------+--------+-----+
+5 rows in set (0.00 sec)
+
+
+2.    Rollback 
+
+mysql> insert into student(roll_no,name,gender,age)values(6,'Vasant','m',50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from student;
++---------+--------+--------+-----+
+| roll_no | name   | gender | age |
++---------+--------+--------+-----+
+|       1 | Karen  | m      |  20 |
+|       2 | Shreya | f      |  21 |
+|       3 | Simran | f      |  22 |
+|       4 | Akash  | m      |  21 |
+|       5 | Aksa   | f      |  20 |
+|       6 | Vasant | m      |  50 |
++---------+--------+--------+-----+
+6 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from student;
++---------+--------+--------+-----+
+| roll_no | name   | gender | age |
++---------+--------+--------+-----+
+|       1 | Karen  | m      |  20 |
+|       2 | Shreya | f      |  21 |
+|       3 | Simran | f      |  22 |
+|       4 | Akash  | m      |  21 |
+|       5 | Aksa   | f      |  20 |
++---------+--------+--------+-----+
+5 rows in set (0.00 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(7,'Sundhar','m',25);
+Query OK, 1 row affected (0.00 sec)
+
+
+3.    Savepoint 
+mysql> savepoint A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select *from student;
++---------+---------+--------+-----+
+| roll_no | name    | gender | age |
++---------+---------+--------+-----+
+|       1 | Karen   | m      |  20 |
+|       2 | Shreya  | f      |  21 |
+|       3 | Simran  | f      |  22 |
+|       4 | Akash   | m      |  21 |
+|       5 | Aksa    | f      |  20 |
+|       7 | Sundhar | m      |  25 |
++---------+---------+--------+-----+
+6 rows in set (0.00 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(8,'Pisal','m',26);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(9,'Payal','f',22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(10,'Prathik','m',23);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback to B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select *from student;
++---------+---------+--------+-----+
+| roll_no | name    | gender | age |
++---------+---------+--------+-----+
+|       1 | Karen   | m      |  20 |
+|       2 | Shreya  | f      |  21 |
+|       3 | Simran  | f      |  22 |
+|       4 | Akash   | m      |  21 |
+|       5 | Aksa    | f      |  20 |
+|       7 | Sundhar | m      |  25 |
+|       8 | Pisal   | m      |  26 |
+|       9 | Payal   | f      |  22 |
++---------+---------+--------+-----+
+8 rows in set (0.00 sec)
+
+mysql> rollback to A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql> 
+mysql> select *from student;
++---------+---------+--------+-----+
+| roll_no | name    | gender | age |
++---------+---------+--------+-----+
+|       1 | Karen   | m      |  20 |
+|       2 | Shreya  | f      |  21 |
+|       3 | Simran  | f      |  22 |
+|       4 | Akash   | m      |  21 |
+|       5 | Aksa    | f      |  20 |
+|       7 | Sundhar | m      |  25 |
+|       8 | Pisal   | m      |  26 |
++---------+---------+--------+-----+
+7 rows in set (0.00 sec)
+
+
+
+b) DCL COMMAND 
+Create two users user1, user2 
+1.      GRANT 
+->Give insert and select privilege to user 1 on customer table in the invoice database. 
+->Give update and delete privilege to user 2 on all tables in the invoice database. 
+
+
+mysql> create user 'anjel'@'localhost'identified by 'mypass1';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> GRANT INSERT,SELECT ON customer TO 'anjel'@'localhost';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> GRANT DELETE,UPDATE ON invoice.*TO 'anjel'@'localhost';
+Query OK, 0 rows affected (0.02 sec)
+mysql>show grants for 'anjel'@'localhost';
+
++--------------------------------------------------------------+
+| Grants for anjel@localhost                                   |
++--------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'anjel'@'localhost'                    |
+| GRANT SELECT, INSERT ON *.* TO 'anjel'@'localhost'           |
+| GRANT DELETE, UPDATE ON invoice.* TO 'anjel'@'localhost'     |
++--------------------------------------------------------------+
+
+2.      REVOKE 
+->Remove delete privilege of user 2. 
+mysql> REVOKE DELETE ON invoice *FROM 'anjel'@'localhost';
+Query OK, 0 rows affected (0.02 sec)
+mysql>show grants for 'anjel'@'localhost';
+
++--------------------------------------------------------------+
+| Grants for anjel@localhost                                   |
++--------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'anjel'@'localhost'                    |
+| GRANT SELECT, INSERT ON customer TO 'anjel'@'localhost'      |
+| GRANT UPDATE ON invoice.* TO 'anjel'@'localhost'             |
++--------------------------------------------------------------+
+
+ 

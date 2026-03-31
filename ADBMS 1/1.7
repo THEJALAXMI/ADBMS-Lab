@@ -1,0 +1,94 @@
+mca@MCA11:~$ sudo mysql -u root -p
+[sudo] password for mca: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.42-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use mca;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select pname,price from product where pname!='Laptop' order by price;
++--------------+-------+
+| pname        | price |
++--------------+-------+
+| Headphone    |  5100 |
+| Mobile Phone | 30600 |
++--------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select min(price), max(price), avg(price) from product;
++------------+------------+------------+
+| min(price) | max(price) | avg(price) |
++------------+------------+------------+
+|       5100 |      51000 | 28900.0000 |
++------------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select city, count(customer_id) from customer group by city;
++-----------+--------------------+
+| city      | count(customer_id) |
++-----------+--------------------+
+| Kochi     |                  1 |
+| Ernakulam |                  1 |
+| Kollam    |                  1 |
+| Thrissur  |                  1 |
++-----------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select count(*), city from customer group by city having count(*)>0;
++----------+-----------+
+| count(*) | city      |
++----------+-----------+
+|        1 | Kochi     |
+|        1 | Ernakulam |
+|        1 | Kollam    |
+|        1 | Thrissur  |
++----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select concat(name, "lives in", city) as cust_info from customer;
++---------------------------+
+| cust_info                 |
++---------------------------+
+| Asif lives in Kochi       |
+| Owen lives in Ernakulam   |
+| Adarsh lives in Kollam    |
+| Adinath lives in Thrissur |
++---------------------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

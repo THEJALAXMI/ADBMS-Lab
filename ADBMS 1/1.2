@@ -1,0 +1,262 @@
+Experiment No 1.2 DML COMMANDS  
+a) DML COMMANDS-INSERT 
+ 1.      Insert values in EMPLOYEE table. 
+ 
+ mysql> insert into employee(SSN,name,city,dob,adhar_no)values(2,'Arnav','Kolkata',2004,23442);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee(SSN,name,city,dob,adhar_no)values(3,'Zamil','Agra',2003,24562);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee(SSN,name,city,dob,adhar_no)values(4,'Kripa','Varanasi',2004,24772);
+Query OK, 1 row affected (0.03 sec)
+mysql> select *from employee;
++------+-------+----------+------+----------+
+| SSN  | name  | city     | dob  | adhar_no |
++------+-------+----------+------+----------+
+|    1 | Aksa  | Delhi    | 2003 |    12342 |
+|    2 | Arnav | Kolkata  | 2004 |    23442 |
+|    3 | Zamil | Agra     | 2003 |    24562 |
+|    4 | Kripa | Varanasi | 2004 |    24772 |
++------+-------+----------+------+----------+
+4 rows in set (0.00 sec)
+ 
+ 
+2.      Insert values in STUDENT table. 
+
+mysql> insert into student(roll_no,name,gender,age)values(1,'Karen','m',20);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(2,'Shreya','f',21);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(3,'Simran','f',22);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into student(roll_no,name,gender,age)values(4,'Akash','m',21);
+Query OK, 1 row affected (0.02 sec)
+
+
+
+3.      Insert values in INVOICE database.  
+
+customer
+mysql> insert into customer(cust_id,name,address,city,ph_no)values(101,'Sharma','2A Confident','Goa',9778764562); 
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer(cust_id,name,address,city,ph_no)values(110,'Rajiv','10B Skyline','Agra', 9298765432 );
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer(cust_id,name,address,city,ph_no)values(121,'Pooja','3D Costa','Delhi',9495949594);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer(cust_id,name,address,city,ph_no)values(131,'Aksa','3D Ripple','Delhi',8976897645);
+Query OK, 1 row affected (0.02 sec)
+mysql> select *from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Agra  | 9298765432  |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
+|     131 | Aksa   | 3D Ripple    | Delhi | 8976897645 |
++---------+--------+--------------+-------+------------+
+4 rows in set (0.00 sec)
+      
+product
+mysql> insert into product(pid,pname,price)values(12,'Book',55);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into product(pid,pname,price)values(13,'Pen',10);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into product(pid,pname,price)values(14,'Eraser',5);
+Query OK, 1 row affected (0.02 sec)
+mysql> select* from product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  12 | Book   |    55 |
+|  13 | Pen    |    10 |
+|  14 | Eraser |     5 |
++-----+--------+-------+
+3 rows in set (0.00 sec)
+
+invoice_master
+mysql> insert into invoice_master(inv_id,inv_date,cust_id)values(23,'2003-12-04',121);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into invoice_master(inv_id,inv_date,cust_id)values(22,'2004-04-06',101);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into invoice_master(inv_id,inv_date,cust_id)values(21,'2004-09-22',110);
+Query OK, 1 row affected (0.02 sec)
+mysql> select* from invoice_master;
++--------+------------+---------+
+| inv_id | inv_date   | cust_id |
++--------+------------+---------+
+|     21 | 2004-09-22 |     110 |
+|     22 | 2004-04-06 |     101 |
+|     23 | 2003-12-04 |     121 |
++--------+------------+---------+
+3 rows in set (0.00 sec)
+
+invoice_item
+mysql> insert into invoice_item(quantity,inv_id,pid)values(100,'21',12);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into invoice_item(quantity,inv_id,pid)values(150,'22',13);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into invoice_item(quantity,inv_id,pid)values(50,'23',14);
+Query OK, 1 row affected (0.02 sec)
+mysql> select* from invoice_item;
++----------+--------+------+
+| quantity | inv_id | pid  |
++----------+--------+------+
+|      100 |     21 |   12 |
+|      150 |     22 |   13 |
+|       50 |     23 |   14 |
++----------+--------+------+
+3 rows in set (0.00 sec)
+
+
+ b)DML COMMANDS- UPDATE 
+1. Update the price of a particular product.  
+
+mysql> update product set price='60' where pid=12;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  12 | Book   |    60 |
+|  13 | Pen    |    10 |
+|  14 | Eraser |     5 |
++-----+--------+-------+
+3 rows in set (0.00 sec)
+
+2. Change the name of city ‘Agra’ to ‘Pune’ in the customer table. 
+
+mysql> update customer set city='Pune' where cust_id=110;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 10B Skyline  | Pune  | 9298765432 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+ 
+3. Update all prices with 2% of its original price.  
+
+mysql> update product set price=price+(price*2/100);
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 3  Changed: 1  Warnings: 0
+
+mysql> select* from product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  12 | Book   |    61 |
+|  13 | Pen    |    10 |
+|  14 | Eraser |     5 |
++-----+--------+-------+
+3 rows in set (0.00 sec)
+
+4. Change the address, city, phone number of a particular customer.  
+update customer set address='3C Opera',city='Surat',ph_no='6789678978 where cust_id=110;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+mysql> select* from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+5. Change the quantity of a purchased product of inv_id ‘101’ 
+ 
+ 
+mysql> update customer set address='3C Opera',city='Surat',ph_no=6789678978 where cust_id=110;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select* from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+ 
+c) DML COMMAND- DELETE 
+1. Delete the record of customer id ‘10001’.
+mysql>DELETE FROM customer WHERE cust_id = 121;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+mysql> select* from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
++---------+--------+--------------+-------+------------+
+
+ 2. Delete all purchase details of items its quantity less than 2.
+ mysql>DELETE FROM invoice_item WHERE quantity < 50;
+ Query OK, 1 row affected (0.02 sec)
+mysql> select* from invoice_item;
++----------+--------+------+
+| quantity | inv_id | pid  |
++----------+--------+------+
+|      100 |     21 |   12 |
+|      150 |     22 |   13 |
++----------+--------+------+
+3 rows in set (0.00 sec)
+ 
+3. Delete the purchase details of product ‘pen’ in the in_id ‘101’. 
+ mysql>DELETE FROM invoice_item WHERE inv_id = 21 and pid=12;
+ Query OK, 1 row affected (0.02 sec)
+mysql> select* from invoice_item;
++----------+--------+------+
+| quantity | inv_id | pid  |
++----------+--------+------+
+|      100 |     21 |   12 |
++----------+--------+------+
+3 rows in set (0.00 sec)
+
+4. Delete details of employees who does not have phone number. 
+ mysql>DELETE FROM employee where adhar_no  is null; 
+ Query OK, 1 row affected (0.02 sec)
+ mysql> select *from employee;
++------+-------+----------+------+----------+
+| SSN  | name  | city     | dob  | adhar_no |
++------+-------+----------+------+----------+
+|    1 | Aksa  | Delhi    | 2003 |    12342 |
+|    2 | Arnav | Kolkata  | 2004 |    23442 |
+|    3 | Zamil | Agra     | 2003 |    24562 |
+|    4 | Kripa | Varanasi | 2004 |    24772 |
++------+-------+----------+------+----------+
+4 rows in set (0.00 sec)
+ 
+ 5. Delete all records from STUDENT table. 
+ mysql> delete from student;
+ Query OK, 1 row affected (0.02 sec)
+ mysql> select* from student;
+ Empty set (0.00 sec)
+
+6. Delete Invoice details of a particular customer. 
+ mysql>DELETE FROM invoice_master WHERE cust_id = 110 and pid=12; 
+ Query OK, 1 row affected (0.02 sec)
+ mysql> select* from invoice_master;
++--------+------------+---------+
+| inv_id | inv_date   | cust_id |
++--------+------------+---------+
+|     22 | 2004-04-06 |     101 |
+|     23 | 2003-12-04 |     121 |
++--------+------------+---------+
+3 rows in set (0.00 sec)

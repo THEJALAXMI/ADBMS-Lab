@@ -1,0 +1,27 @@
+mysql> create view am as select*from customer where customer_id in(select customer_id from invoice_master);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from am;
++-------------+--------+--------------+-----------+------------+
+| customer_id | name   | address      | city      | ph_no      |
++-------------+--------+--------------+-----------+------------+
+|         121 | Asif   | 14 Aqua City | Kochi     | 9587345109 |
+|         122 | Owen   | 10 Lakeview  | Ernakulam | 8251704276 |
+|         123 | Adarsh | 21 Confident | Kollam    | 8976543098 |
++-------------+--------+--------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> create VIEW invoice_product as select customer.name,invoice_master.inv_id,product.pid,invoice_item.quantity from customer INNER JOIN invoice_master on
+customer.customer_id=invoice_master.customer_id INNER JOIN invoice_item on invoice_master .inv_id =invoice_item.inv_id INNER JOIN product on product.pid=invoice_item.pid;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from invoice_product;
++--------+--------+-----+----------+
+| name   | inv_id | pid | quantity |
++--------+--------+-----+----------+
+| Asif   |      1 | 201 |        3 |
+| Owen   |      2 | 202 |        3 |
+| Adarsh |      3 | 203 |        4 |
++--------+--------+-----+----------+
+3 rows in set (0.00 sec)
+

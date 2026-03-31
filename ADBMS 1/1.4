@@ -1,0 +1,190 @@
+Experiment No: 1.4 ACCESSING DATABASE: (SELECT, Filtering 
+using WHERE, HAVING, ORDER BY Clauses)
+1.    List all customer details. 
+
+mysql> use MCA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+
+mysql> select *from customer;
++-------------+------+--------------+-----------+------------+
+| customer_id | name | address      | city      | ph_no      |
++-------------+------+--------------+-----------+------------+
+|         121 | Asif | 14 Aqua City | Kochi     | 9587345109 |
+|         122 | Owen | 10 Lakeview  | Ernakulam | 8251704276 |
++-------------+------+--------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+2.List pname, price of all products. 
+
+mysql> select *from product;
++-----+--------------+-------+
+| pid | pname        | price |
++-----+--------------+-------+
+| 201 | Laptop       | 51000 |
+| 202 | Mobile Phone | 30600 |
+| 203 | Headphone    |  5100 |
++-----+--------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select pname,price from product;
++--------------+-------+
+| pname        | price |
++--------------+-------+
+| Laptop       | 51000 |
+| Mobile Phone | 30600 |
+| Headphone    |  5100 |
++--------------+-------+
+3 rows in set (0.00 sec)
+
+3.    List all invoice items, avoid duplicates. 
+mysql> desc invoice_item;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| quantity | int  | YES  |     | NULL    |       |
+| inv_id   | int  | YES  | MUL | NULL    |       |
+| pid      | int  | YES  | MUL | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select distinct inv_id from invoice_item;
++--------+
+| inv_id |
++--------+
+|      1 |
+|      2 |
+|      3 |
++--------+
+3 rows in set (0.00 sec)
+
+4. List product price between 5000rs and 5500rs 
+
+mysql> select *from product where price between 5000 and 5500;
++-----+-----------+-------+
+| pid | pname     | price |
++-----+-----------+-------+
+| 203 | Headphone |  5100 |
++-----+-----------+-------+
+1 row in set (0.00 sec)
+
+5. List the customer details who lives in ‘Kochi’,’Ernakulam’. 
+
+mysql> select *from customer where city="Kochi" or city="Ernakulam";
++-------------+------+--------------+-----------+------------+
+| customer_id | name | address      | city      | ph_no      |
++-------------+------+--------------+-----------+------------+
+|         121 | Asif | 14 Aqua City | Kochi     | 9587345109 |
+|         122 | Owen | 10 Lakeview  | Ernakulam | 8251704276 |
++-------------+------+--------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+6.List the invoice details from '2005-09-22' and '2014-09-21'
+
+mysql> select *from invoice_master;
++--------+-------------+------------+
+| inv_id | customer_id | inv_date   |
++--------+-------------+------------+
+|      1 |        NULL | 2000-01-27 |
+|      2 |        NULL | 2012-03-12 |
+|      3 |        NULL | 2008-03-22 |
++--------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select *from invoice_master where inv_date between '2005-09-22' and '2014-09-21';
++--------+-------------+------------+
+| inv_id | customer_id | inv_date   |
++--------+-------------+------------+
+|      2 |        NULL | 2012-03-12 |
+|      3 |        NULL | 2008-03-22 |
++--------+-------------+------------+
+2 rows in set (0.00 sec)
+
+7.List the customer details who not live in ‘Ernakulam’. 
+
+mysql> select *from customer where city!="Ernakulam";
++-------------+------+--------------+-------+------------+
+| customer_id | name | address      | city  | ph_no      |
++-------------+------+--------------+-------+------------+
+|         121 | Asif | 14 Aqua City | Kochi | 9587345109 |
++-------------+------+--------------+-------+------------+
+
+8.List the customers who have no phone number. 
+mysql> select *from customer where ph_no is null;
+Empty set (0.00 sec)
+
+9.Display customer names in descending order. 
+mysql> select *from customer order by name desc;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+
+10.Display the customer details sorted in ascending by city and descending by names.
+
+mysql> select *from customer ORDER BY city ASC, name DESC;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+4 rows in set (0.00 sec)
+
+11. Find the customer names start with ‘R’. 
+mysql> select name from customer where name like 'R%';
++------+
+| name |
++------+
+| Rajiv |
++------+
+1 row in set (0.00 sec)
+
+12. Find the customer names who have ‘e’ or ‘a’ in them. 
+mysql> select name from customer where name like '%a%' or name like '%e%';
++--------+
+| name   |
++--------+
+| Sharma |
+| Rajiv  |
+| Pooja  |
++--------+
+4 rows in set (0.00 sec)
+
+13. Find the customer names who have at least 4 characters. 
+mysql> select name from customer where name like '%_____%';
++--------+
+| name   |
++--------+
+| Sharma |
+| Rajiv  |
+| Pooja  |
++--------+
+3 rows in set (0.00 sec)
+
+14. List the names of customers their names have ‘a’ in second position. 
+mysql> select name from customer where name like '_a%';
++-------+
+| name  |
++-------+
+| Rajiv |
++-------+
+1 row in set (0.00 sec)
+
+15. Find the customer names start with ‘r’ and are at least 3 characters in length. 
+mysql> select name from customer where name like 'r___%';
++-------+
+| name  |
++-------+
+| Rajiv |
++-------+
+1 row in set (0.00 sec)
+1 row in set (0.00 sec)
+
+
