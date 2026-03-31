@@ -1,0 +1,33 @@
+mysql> delimiter !!
+mysql> create table customer_1(id int,name varchar(15),address varchar(15),city varchar(25), phno bigint); !!
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter !!
+mysql> create trigger updaters before update on customer for each row begin insert into customer_1 values(old.customer_id,old.name,old.address,old.city,old.ph_no); end !!
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter !!
+mysql> select*from customer;
+    -> end !!
++-------------+---------+-----------------+-----------+------------+
+| customer_id | name    | address         | city      | ph_no      |
++-------------+---------+-----------------+-----------+------------+
+|         121 | Asif    | 14 Aqua City    | Kochi     | 9587345109 |
+|         122 | Owen    | 10 Lakeview     | Ernakulam | 8251704276 |
+|         123 | Adarsh  | 21 Confident    | Kollam    | 8976543098 |
+|         124 | Adinath | 10 Costa valley | Thrissur  | 9865343098 |
++-------------+---------+-----------------+-----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter !! 
+mysql> create trigger product_price 
+    -> before insert
+    -> on product
+    -> for each row
+    -> begin
+    -> if new.price<5 then
+    -> set new.price=10;
+    -> end if;
+    -> end !!
+Query OK, 0 rows affected (0.01 sec)
+
