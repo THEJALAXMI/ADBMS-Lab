@@ -1,0 +1,49 @@
+EXPERIMENT NO: 1.9 OPTIMIZING DATABASE:
+(Using Set, arithmetic, logical and special operators)
+
+
+1. Display customer_id, city who lives either in ‘Surat’ or in ‘Agra’
+mysql> select cust_id,city from customer where city="Surat" or city= "Agra";
++---------+-------+
+| cust_id | city  |
++---------+-------+
+|     110 | Surat |
+|     121 | Surat |
+|     133 | Agra  |
++---------+-------+
+3 rows in set (0.00 sec)
+
+
+2. Display product details with an updated price amount(new price= old price+5rs)
+mysql> update product set price=price+5;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  12 | Book   |    66 |
+|  13 | Pen    |    15 |
+|  14 | Eraser |    10 |
++-----+--------+-------+
+3 rows in set (0.00 sec)
+
+3. Display customer details who doesn’t have phone number and lives in ‘Delhi’ city (use logical operators)
+mysql> select * from customer where ph_no is NULL and city="Delhi";
++---------+------+-----------+-------+-------+
+| cust_id | name | address   | city  | ph_no |
++---------+------+-----------+-------+-------+
+|     131 | Aksa | 3D Ripple | Delhi |  NULL |
++---------+------+-----------+-------+-------+
+1 row in set (0.00 sec)
+
+4. List the product names if it finds any records in the invoice items table has quantity =3 (use special operators)
+mysql> select pname from product where pid in(select pid from invoice_item
+where quantity = 150);
++-------+
+| pname |
++-------+
+| Pen   |
++-------+
+1 row in set (0.00 sec)
